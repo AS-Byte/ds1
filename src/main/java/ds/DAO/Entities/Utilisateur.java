@@ -1,12 +1,12 @@
 package ds.DAO.Entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.io.Serializable;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 @Entity
 @Getter
 @Setter
@@ -14,10 +14,26 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class a implements Serializable {
+public class Utilisateur implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+
+    String nom;
+
+    String prenom;
+
+    String adresse;
+
+    long telephone;
+
+    @Enumerated(EnumType.STRING)
+    Role role;
+
+    //Utilisateur est le child
+    @JsonIgnore
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch = FetchType.EAGER)
+    List<Declaration> declarations=new ArrayList<Declaration>();
 
     /*
     @Temporal(TemporalType.DATE)

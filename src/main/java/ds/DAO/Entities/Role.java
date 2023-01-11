@@ -1,2 +1,6 @@
-package ds.DAO.Entities;public enum Role {
+package ds.DAO.Entities;
+
+public enum Role {
+    VICTIME,
+    POLICIER
 }
