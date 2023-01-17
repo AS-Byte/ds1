@@ -16,28 +16,20 @@ public class Declaration implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-
     @Temporal(TemporalType.DATE)
     Date dateDeclaration;
-
     Boolean estTraitee;
-
     @Temporal(TemporalType.DATE)
     Date dateTraitement;
-
     String description;
-
+    //declaration est le parent
+    @OneToOne(cascade = CascadeType.ALL)
+    Propriete propriete;
     //declaration est le parent
     @JsonIgnore
     @ManyToOne
-    Utilisateur utilisateur;
-
-
-    //declaration est le parent
-    @OneToOne
-    Propriete propriete;
-
-
-
-
+    Utilisateur victime;
+    @JsonIgnore
+    @ManyToOne
+    Utilisateur policier;
 }

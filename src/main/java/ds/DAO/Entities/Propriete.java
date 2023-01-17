@@ -14,10 +14,8 @@ public class Propriete implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-
     @Enumerated(EnumType.STRING)
     TypePropriete typePropriete;
-
     String couleur;
     String marque;
     String matricule;

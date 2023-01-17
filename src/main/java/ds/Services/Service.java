@@ -1,20 +1,17 @@
 package ds.Services;
-
 import ds.DAO.Entities.Declaration;
 import ds.DAO.Entities.Role;
+import ds.DAO.Entities.TypePropriete;
 import ds.DAO.Entities.Utilisateur;
 import ds.DAO.Repositories.RepDec;
 import ds.DAO.Repositories.RepProp;
 import ds.DAO.Repositories.RepUtilis;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.Date;
 import java.util.List;
-
 @Slf4j
 @org.springframework.stereotype.Service
-
 public class Service implements IService {
     @Autowired
     RepDec repDec;
@@ -22,8 +19,6 @@ public class Service implements IService {
     RepProp repProp;
     @Autowired
     RepUtilis repUtilis;
-
-
     @Override
     public Utilisateur ajouterVictime(Utilisateur victime) {
         if (victime.getRole().equals(Role.POLICIER)){
@@ -34,48 +29,40 @@ public class Service implements IService {
         }
         return victime;
     }
-
     @Override
     public String ajouterPoliciers(List<Utilisateur> policiers) {
         int nbpoliciers=0;
         for (Utilisateur policier:policiers
              ) {
-
             if (policier.getRole().equals(Role.POLICIER)){
                 repUtilis.save(policier);
                 nbpoliciers++;
             }
         }
-        String msg= nbpoliciers + "policiers sont ajoutés avec\n" +
-                "succès ! »";
+        String msg= nbpoliciers + "policiers sont ajoutés avec succès ! »";
+        System.out.println(msg);
         return msg;
     }
-
     @Override
     public String ajouterDeclarationEtAffecterAVictime(Declaration declaration, long telephone) {
         Utilisateur user= repUtilis.findByTelephone(telephone);
-        declaration.setUtilisateur(user);
+        declaration.setVictime(user);
         repDec.save(declaration);
 
         String msg="declaration ajoutée";
 
         return  msg;
     }
-
     @Override
     public void affecterPolicierADeclarataion(long idUtilisateur, long idDeclarataion) {
         Utilisateur uaf= repUtilis.findById(idUtilisateur).get();
         Declaration daf=repDec.findById(idDeclarataion).get();
-        daf.setUtilisateur(uaf);
+        daf.setPolicier(uaf);
         repDec.save(daf);
     }
-
     @Override
     public void traiterDeclarationAutomatiquement() {
-
         List<Declaration> decs = (List<Declaration>) repDec.findAll();
-
-
         for (Declaration dec:decs
         ) {
             if ((dec.getDateDeclaration().getMonth() - new Date().getMonth())>= 1){
@@ -85,9 +72,10 @@ public class Service implements IService {
             }
         }
     }
-
     @Override
     public List<Utilisateur> afficherDeclarationsTraitees() {
-        return null;
+
+        return repUtilis.findByDeclarationsPolicierEstTraiteeAndDeclarationsPolicierProprieteTypePropriete
+                (true, TypePropriete.VEHICULE);
     }
 }

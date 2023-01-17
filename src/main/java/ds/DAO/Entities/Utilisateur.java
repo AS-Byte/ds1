@@ -18,42 +18,18 @@ public class Utilisateur implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-
     String nom;
-
     String prenom;
-
     String adresse;
-
     long telephone;
-
     @Enumerated(EnumType.STRING)
     Role role;
-
     //Utilisateur est le child
     @JsonIgnore
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch = FetchType.EAGER)
-    List<Declaration> declarations=new ArrayList<Declaration>();
-
-    /*
-    @Temporal(TemporalType.DATE)
-    Date dateCreation;
-
-    @Enumerated(EnumType.STRING)
-    Sexe sexe;
-
-    @Column(unique = true)
-    long cin;
-
-
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "victime", fetch = FetchType.EAGER)
+    List<Declaration> declarationsVictime=new ArrayList<Declaration>();
     @JsonIgnore
-    @OneToMany (cascade = CascadeType.ALL, mappedBy = "clubR", fetch = FetchType.EAGER)
-    List<Etudiant> responsables=new ArrayList<Etudiant>();
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "policier", fetch = FetchType.EAGER)
+    List<Declaration> declarationsPolicier=new ArrayList<Declaration>();
 
-    @ManyToMany(mappedBy = "clubsA",cascade = CascadeType.ALL)
-    List<Etudiant> adherants=new ArrayList<Etudiant>();
-
-    @OneToMany (cascade = CascadeType.ALL)
-    List<Activite> activites = new ArrayList<Activite>();
-     */
 }

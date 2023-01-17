@@ -3,13 +3,9 @@ import ds.DAO.Entities.Declaration;
 import ds.DAO.Entities.Utilisateur;
 import ds.Services.IService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @org.springframework.web.bind.annotation.RestController
 
 public class RestController {
@@ -40,6 +36,9 @@ public class RestController {
     public void traiterDeclarationAutomatiquement(){
         is.traiterDeclarationAutomatiquement();
     }
-
+    @GetMapping("afficherDeclarationsTraitees")
+    public List<Utilisateur> afficherDeclarationsTraitees(){
+       return is.afficherDeclarationsTraitees();
+    }
 
 }
